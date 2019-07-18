@@ -1,5 +1,6 @@
 from django.db import models
-from django_earthdistance.models import EarthDistanceQuerySet
+# from django_earthdistance.models import EarthDistanceQuerySet
+
 
 class City(models.Model):
     """City Model Class"""

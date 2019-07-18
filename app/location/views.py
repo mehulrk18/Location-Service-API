@@ -1,10 +1,10 @@
 from rest_framework import viewsets, mixins  # , status
 
 from django.db.models import Q, F
-from django_earthdistance.models import EarthDistance, LlToEarth
-from django.db.models.expressions import RawSQL
+# from django_earthdistance.models import EarthDistance, LlToEarth
+# from django.db.models.expressions import RawSQL
 
-from math import sqrt
+# from math import sqrt
 
 from location.models import City, Location
 from location import serializers
@@ -33,7 +33,6 @@ class LocationViewSet(viewsets.ModelViewSet,
     # def _params_to_segs(self, qs):
     #     """Convert list of string ids to list of integers"""
     #     return [str_id for str_id in qs.split(',')]
-
 
     def get_queryset(self):
         """Returns location to the user"""
@@ -73,7 +72,8 @@ class LocationViewSet(viewsets.ModelViewSet,
             #     location_location', 'locality'
             # )
             queryset = queryset.annotate(
-                distance=((lat-F('latitude'))**2 + (long-F('longitude'))**2)**0.5
+                distance=((lat-F('latitude'))**2
+                          + (long-F('longitude'))**2)**0.5
             ).filter(distance__lte=10).order_by('distance').distinct()
 
             # print(distance=EarthDistance([
@@ -87,7 +87,6 @@ class LocationViewSet(viewsets.ModelViewSet,
             # ).filter(distance__lt=10).order_by('distance').distinct()
 
             # return queryset
-
 
         # return queryset.filter().annotate(
         #     v1=(lat - F('latitude'))**2
