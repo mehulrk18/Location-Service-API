@@ -18,13 +18,17 @@ class CitySerializer(serializers.ModelSerializer):
 
 class LocationSerializer(serializers.ModelSerializer):
     """Location model serializer"""
-
+    # city = serializers.Field(source='city.name')
     class Meta:
         model = Location
-        fields = ('id', 'locality', 'pincode', 'city', 'latlng')
+        fields = ('id', 'locality', 'pincode', 'latitude', 'longitude', 'city')
         read_only_fields = ('id',)
         extra_kwargs = {'pincode': {'min_length': 6}}
 
     def create(self, validated_data):
         """Create a city and save it"""
         return Location.objects.create(**validated_data)
+
+
+# class SearchSerializer(serializers.Serailizers):
+#     """Search Feature Serailizer"""

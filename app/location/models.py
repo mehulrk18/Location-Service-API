@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
-
+from django_earthdistance.models import EarthDistanceQuerySet
 
 class City(models.Model):
     """City Model Class"""
@@ -29,14 +28,28 @@ class Location(models.Model):
 
     locality = models.CharField(max_length=255)
     # pincode = models.DecimalField(max_digits=6, decimal_places=0)
-    pincode = models.CharField(max_length=6, unique=True)
-    latlng = JSONField()
+    pincode = models.CharField(max_length=6)
+    latitude = models.FloatField()  # (max_digits=8, decimal_places=5)
+    longitude = models.FloatField()  # (max_digits=8, decimal_places=5)
+
     city = models.ForeignKey(
         City,
         on_delete=models.CASCADE
     )
 
-    REQUIRED_FIELDS = ['locality', 'pincode', 'latlng']
+    REQUIRED_FIELDS = ['locality', 'pincode', 'latitude', 'longitude']
+    # objects = EarthDistanceQuerySet.as_manager()
+    #
+    # def in_range(self, range_in_meters, **kwargs):
+    #     return filter_in_range(
+    #         queryset=self.__class__.objects,
+    #         latitude=self.latitude,
+    #         longitude=self.longitude,
+    #         range_in_meters=range_in_meters,
+    #         latitude_column_name="latitude",
+    #         longitude_column_name="longitude",
+    #         **kwargs,
+    #         )
 
     def __str__(self):
         """String represtation of the locality"""
